@@ -1,79 +1,141 @@
-[gd_scene load_steps=13 format=3 uid="uid://bohumhlieqlk8"]
+[gd_scene load_steps=16 format=3 uid="uid://bohumhlieqlk8"]
 
-[ext_resource type="Texture2D" uid="uid://bwkvp0wkbbqu2" path="res://terrain.png" id="1_wtcfe"]
+[ext_resource type="Texture2D" uid="uid://b0t0oe2avl0kn" path="res://FutsalPitch1.png" id="1_kdubu"]
+[ext_resource type="Script" uid="uid://nef3ct5hrviu" path="res://node_2d.gd" id="1_rj586"]
 [ext_resource type="Texture2D" uid="uid://dguj2txnkgg1k" path="res://panda.png" id="2_kdubu"]
 [ext_resource type="Script" uid="uid://caj77xvug5m0i" path="res://character_body_2d_2.gd" id="2_rj586"]
-[ext_resource type="Script" uid="uid://cd2kv1p6wf01d" path="res://panda.gd" id="3_d21ai"]
+[ext_resource type="Texture2D" uid="uid://cc4cfgek6lnbw" path="res://football-157930_640.webp" id="3_d21ai"]
+[ext_resource type="Script" uid="uid://hq5dvfr6e4nm" path="res://character_body_2d_3.gd" id="4_4d7sh"]
+[ext_resource type="AudioStream" uid="uid://dkr5e0o0h3mu6" path="res://37155__volivieri__soccer-ball-hit-ground-02.wav" id="4_ir8iy"]
 [ext_resource type="Texture2D" uid="uid://s6yxylii1nnx" path="res://monkey.png" id="4_rj586"]
-[ext_resource type="Script" uid="uid://jobbxqut2let" path="res://monkey.gd" id="5_4d7sh"]
-[ext_resource type="Texture2D" uid="uid://bkv8aqoqyvol5" path="res://tennis.webp" id="6_ir8iy"]
-[ext_resource type="Script" uid="uid://oahdd3wu86c0" path="res://tennis.gd" id="7_d21ai"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqns4"]
-size = Vector2(720, 1275)
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d21ai"]
+bounce = 1.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_x0ka3"]
-radius = 133.26
+[sub_resource type="CircleShape2D" id="CircleShape2D_rj586"]
+radius = 42.01
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0h7mo"]
 radius = 130.384
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_nr8wp"]
-radius = 446.14
+[sub_resource type="CircleShape2D" id="CircleShape2D_x0ka3"]
+radius = 133.26
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d21ai"]
+size = Vector2(1300, 169)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rj586"]
+size = Vector2(17.9529, 20.3321)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdubu"]
+size = Vector2(20, 16.8999)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_rj586")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Terrain" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(576.5, 323.5)
+scale = Vector2(1.3125, 1.44667)
+texture = ExtResource("1_kdubu")
 
-[node name="Terrain" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(569, 323)
-rotation = 1.5708
-texture = ExtResource("1_wtcfe")
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(0, 1)
+disable_mode = 2
+collision_layer = 3
+collision_mask = 3
+mass = 1.179
+physics_material_override = SubResource("PhysicsMaterial_d21ai")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(569, 323)
-rotation = 1.5708
-shape = SubResource("RectangleShape2D_hqns4")
+[node name="Foot" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(572.4, 319.4)
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("3_d21ai")
 
-[node name="CharacterBody2D2" type="CharacterBody2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(572.4, 320.4)
+shape = SubResource("CircleShape2D_rj586")
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="RigidBody2D"]
+stream = ExtResource("4_ir8iy")
+
+[node name="CharacterBody2Dmonkey" type="CharacterBody2D" parent="."]
+script = ExtResource("4_4d7sh")
+
+[node name="Monkey" type="Sprite2D" parent="CharacterBody2Dmonkey"]
+position = Vector2(937, 195)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_rj586")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2Dmonkey"]
+position = Vector2(937, 195)
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_0h7mo")
+
+[node name="CharacterBody2Dpanda" type="CharacterBody2D" parent="."]
 script = ExtResource("2_rj586")
 
-[node name="Panda" type="Sprite2D" parent="CharacterBody2D/CharacterBody2D2"]
+[node name="Panda" type="Sprite2D" parent="CharacterBody2Dpanda"]
 position = Vector2(164, 433)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_kdubu")
-script = ExtResource("3_d21ai")
-speed = null
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/CharacterBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2Dpanda"]
 position = Vector2(164, 433)
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_x0ka3")
 one_way_collision_margin = 0.0
 
-[node name="CharacterBody2D2" type="CharacterBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="Monkey" type="Sprite2D" parent="CharacterBody2D2"]
-position = Vector2(937, 195)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("4_rj586")
-script = ExtResource("5_4d7sh")
-speed = null
+[node name="haut" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(567, -54)
+shape = SubResource("RectangleShape2D_d21ai")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2"]
-position = Vector2(937, 195)
-scale = Vector2(0.5, 0.5)
-shape = SubResource("CircleShape2D_0h7mo")
+[node name="bas" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(583, 702)
+shape = SubResource("RectangleShape2D_d21ai")
 
-[node name="Tennis" type="Sprite2D" parent="."]
-position = Vector2(325, 416)
-scale = Vector2(0.06, 0.06)
-texture = ExtResource("6_ir8iy")
-script = ExtResource("7_d21ai")
+[node name="gauche" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-25, 73)
+scale = Vector2(5.52, 10.84)
+shape = SubResource("RectangleShape2D_rj586")
 
-[node name="Area2D" type="Area2D" parent="Tennis"]
+[node name="gauche2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-21, 572)
+scale = Vector2(5.52, 10.84)
+shape = SubResource("RectangleShape2D_rj586")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tennis/Area2D"]
-shape = SubResource("CircleShape2D_nr8wp")
+[node name="droit" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1180, 574)
+scale = Vector2(5.52, 10.84)
+shape = SubResource("RectangleShape2D_rj586")
 
-[connection signal="area_entered" from="Tennis/Area2D" to="Tennis" method="_on_area_2d_area_entered"]
+[node name="droit2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1177, 70)
+scale = Vector2(5.52, 10.84)
+shape = SubResource("RectangleShape2D_rj586")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-158, 311)
+rotation = 3.14159
+scale = Vector2(9.97747, -57.1024)
+shape = SubResource("RectangleShape2D_kdubu")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1309, 319)
+rotation = 3.14159
+scale = Vector2(9.97747, -57.1024)
+shape = SubResource("RectangleShape2D_kdubu")
+
+[connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]
+[connection signal="body_entered" from="RigidBody2D" to="CharacterBody2Dpanda" method="_on_rigid_body_2d_body_entered"]
+[connection signal="body_shape_entered" from="RigidBody2D" to="RigidBody2D/Foot" method="_on_rigid_body_2d_body_shape_entered"]
+[connection signal="body_entered" from="Area2D" to="CharacterBody2Dmonkey" method="_on_area_2d_body_entered"]
